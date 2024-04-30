@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { Box } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
 import { Props } from '@/types.ts';
 
 interface DropzoneProps extends Props {
@@ -23,9 +23,19 @@ export default function Dropzone({ onChange }: DropzoneProps) {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop, multiple: false });
 
   return (
-    <Box {...getRootProps()} border='2px solid black' px={8} cursor='pointer'>
+    <Flex
+      {...getRootProps()}
+      height='500px'
+      width='500px'
+      borderRadius={6}
+      border='1px solid'
+      borderColor='chakra-border-color'
+      overflow='hidden'
+      cursor='pointer'
+      justify='center'
+      align='center'>
       <input {...getInputProps({ accept: 'image/*' })} />
-      {isDragActive ? <p>Drop the files here ...</p> : <p>Drag 'n' drop some files here, or click to select files</p>}
-    </Box>
+      {isDragActive ? <p>Drop the image here ...</p> : <p>Drag 'n' drop the image here, or click to select image</p>}
+    </Flex>
   );
 }

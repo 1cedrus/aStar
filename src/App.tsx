@@ -1,18 +1,13 @@
 import { Flex } from '@chakra-ui/react';
-import Dropzone from '@/components/Dropzone.tsx';
-import { useState } from 'react';
 import Puzzle from '@/components/Puzzle.tsx';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
-  const [image, setImage] = useState<string>('');
-
-  const handleDrop = (imageURL: string) => {
-    setImage(imageURL);
-  };
-
   return (
     <Flex h='100vh' w='full' justify='center' align='center'>
-      {image ? <Puzzle imageURL={image} /> : <Dropzone onChange={handleDrop} />}
+      <Puzzle />
+      <ToastContainer />
     </Flex>
   );
 }
