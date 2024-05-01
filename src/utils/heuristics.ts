@@ -35,7 +35,7 @@ export function manhattan(state: number[], _rows: number, cols: number) {
   return count;
 }
 
-export function unknown(state: number[], _rows: number, cols: number) {
+export function unknown(state: number[], rows: number, cols: number) {
   let count = 0;
 
   for (let i = 0; i < state.length; i++) {
@@ -55,5 +55,26 @@ export function unknown(state: number[], _rows: number, cols: number) {
     count += Math.pow(Math.abs(targetX - cursorX), 2) + Math.pow(Math.abs(targetY - cursorY), 2);
   }
 
-  return count - 0.15 * count;
+  let a = 0;
+  for (let i = 0; i < state.length; i++) {
+    if (i % cols === cols - 1) continue;
+
+    if (i === state.length - 2 && state[i + 1] === i + 1 && state[i] === 0) {
+      a += 2;
+    } else if (state[i] === i + 2 && state[i + 1] === i + 1) {
+      a += 2;
+    }
+  }
+
+  for (let i = 0; i < state.length; i++) {
+    if (Math.floor(i / cols) === rows - 1) break;
+
+    if (i === state.length - cols - 1 && state[i + cols] === i + 1 && state[i] === 0) {
+      a += 2;
+    } else if (state[i] === i + cols + 1 && state[i + cols] === i + 1) {
+      a += 2;
+    }
+  }
+
+  return count - 0.15 * count + a;
 }

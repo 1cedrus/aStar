@@ -61,6 +61,8 @@ export default function Puzzle() {
   };
 
   const findSolution = () => {
+    clearStuff();
+
     setOnFinding(true);
     const startTime = Date.now();
 
@@ -248,6 +250,7 @@ export default function Puzzle() {
   const clearStuff = () => {
     solveInterval && stopSolving();
     stopFindSolution();
+    setSolution(undefined);
   };
 
   const doRemove = () => {

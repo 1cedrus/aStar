@@ -1,11 +1,12 @@
 import { Node, SolutionInfo } from '@/types.ts';
 import { PriorityQueue } from '@datastructures-js/priority-queue';
+import { BigMap } from '@/utils/bigmap.ts';
 
 export function isGoalState(state: number[], rows: number, cols: number) {
   return state.every((value, index) => (index !== rows * cols - 1 ? value === index + 1 : !value));
 }
 
-export function getPath(parents: Map<string, number[]>, state: number[]) {
+export function getPath(parents: BigMap<string, number[]>, state: number[]) {
   const path = [state];
 
   while (parents.has(state.toString())) {
@@ -52,8 +53,8 @@ export function aStar(
 ) {
   const visited = new Set<string>();
   const queue = new PriorityQueue<Node>((a, b) => a.cost - b.cost);
-  const parents = new Map<string, number[]>();
-  const costs = new Map<string, number>();
+  const parents = new BigMap<string, number[]>();
+  const costs = new BigMap<string, number>();
 
   queue.push({ state: startState, cost: heuristic(startState, rows, cols) });
   costs.set(startState.toString(), 0);
