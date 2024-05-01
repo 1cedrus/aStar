@@ -69,8 +69,9 @@ export default function Puzzle() {
     let lastMove = solution.shift()!;
     const solveInterval = setInterval(() => {
       if (solution.length === 0) {
+        //TODO: Figure out why we need to clear interval here
+        clearInterval(solveInterval);
         stopSolving();
-        console.log('Done');
       } else {
         const move = solution.shift()!;
 
@@ -83,8 +84,9 @@ export default function Puzzle() {
   };
 
   const stopSolving = () => {
-    clearInterval(solveInterval);
+    solveInterval && clearInterval(solveInterval);
     setSolveInterval(undefined);
+    setSolution(undefined);
   };
 
   const findSolution = () => {
@@ -96,8 +98,6 @@ export default function Puzzle() {
     worker.onmessage = (e) => {
       try {
         const info = e.data as SolutionInfo;
-
-        console.log(info);
 
         info.time = Date.now() - startTime;
         info.steps = info.solution.length - 1;
@@ -267,8 +267,7 @@ export default function Puzzle() {
   };
 
   const clearStuff = () => {
-    solveInterval && clearInterval(solveInterval);
-    setSolution(undefined);
+    solveInterval && stopSolving();
     stopFindSolution();
   };
 
