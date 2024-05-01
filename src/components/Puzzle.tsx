@@ -110,7 +110,7 @@ export default function Puzzle() {
         doMove(getMoveDir(move, lastMove, columns), lastMove);
         lastMove = move;
       }
-    }, 1000);
+    }, 250);
 
     setSolveInterval(solveInterval);
   };
