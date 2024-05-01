@@ -1,43 +1,10 @@
-import { Heuristic, SolutionInfo } from '@/types.ts';
+import { Direction, Heuristic, SolutionInfo } from '@/types.ts';
 import { useEffect, useState } from 'react';
 import { Box, Button, Flex, Input, InputGroup, InputLeftAddon, Select } from '@chakra-ui/react';
 import Dropzone from '@/components/Dropzone.tsx';
 import { toast } from 'react-toastify';
 import { misplaced } from '@/utils/heuristics.ts';
-
-function getMoveDir(move: number[], pieces: number[], columns: number) {
-  const indexOfCursor = pieces.indexOf(0);
-  const newIndexOfCursor = move.indexOf(0);
-
-  if (newIndexOfCursor - indexOfCursor === 1) return Direction.RIGHT;
-  else if (newIndexOfCursor - indexOfCursor === -1) return Direction.LEFT;
-  else if (newIndexOfCursor - indexOfCursor === columns) return Direction.DOWN;
-  else return Direction.UP;
-}
-
-function isSolvable(state: number[]) {
-  let inversions = 0;
-
-  for (let i = 0; i < state.length; i++) {
-    if (!state[i]) continue;
-    for (let j = i + 1; j < state.length; j++) {
-      if (!state[j]) continue;
-
-      if (state[i] > state[j]) {
-        inversions++;
-      }
-    }
-  }
-
-  return inversions % 2 === 0;
-}
-
-enum Direction {
-  UP,
-  DOWN,
-  LEFT,
-  RIGHT,
-}
+import { getMoveDir, isSolvable } from '@/utils/puzzle.ts';
 
 export default function Puzzle() {
   const [size, setSize] = useState<string>('3x3');
@@ -51,66 +18,15 @@ export default function Puzzle() {
   const [solveInterval, setSolveInterval] = useState<number>();
   const [onSolving, setOnSolving] = useState(false);
 
-  const stopFindSolution = () => {
-    if (worker) {
-      worker.terminate();
-      setOnFinding(false);
-      setWorker(undefined);
-    }
-  };
-
   const handleDrop = (imageURL: string) => {
     setImage(imageURL);
   };
 
-  const doSolve = (solution: number[][]) => {
-    if (!solution.length) return;
+  useEffect(() => {
+    if (!image) return;
 
-    let lastMove = solution.shift()!;
-    const solveInterval = setInterval(() => {
-      if (solution.length === 0) {
-        //TODO: Figure out why we need to clear interval here
-        clearInterval(solveInterval);
-        setSolution(undefined);
-      } else {
-        const move = solution.shift()!;
-
-        doMove(getMoveDir(move, lastMove, columns), lastMove);
-        lastMove = move;
-      }
-    }, 1000);
-
-    setSolveInterval(solveInterval);
-  };
-
-  const stopSolving = () => {
-    solveInterval && clearInterval(solveInterval);
-    setSolveInterval(undefined);
-  };
-
-  const findSolution = () => {
-    setOnFinding(true);
-    const startTime = Date.now();
-
-    const worker = new Worker(new URL('../utils/worker.ts', import.meta.url), { type: 'module' });
-    worker.postMessage([pieces, heuristic, rows, columns]);
-    worker.onmessage = (e) => {
-      try {
-        const info = e.data as SolutionInfo;
-
-        info.time = Date.now() - startTime;
-        info.steps = info.solution.length - 1;
-
-        setSolution(info);
-        setOnFinding(false);
-      } catch (e) {
-        toast.error('Out of stack =))');
-        clearStuff();
-      }
-    };
-
-    setWorker(worker);
-  };
+    doClear();
+  }, [image, size]);
 
   const renderPuzzle = (pieces: number[]) => {
     const canvas = document.querySelector('canvas')!;
@@ -144,6 +60,76 @@ export default function Puzzle() {
     img.src = image;
   };
 
+  const findSolution = () => {
+    setOnFinding(true);
+    const startTime = Date.now();
+
+    const worker = new Worker(new URL('../utils/worker.ts', import.meta.url), { type: 'module' });
+    worker.postMessage([pieces, heuristic, rows, columns]);
+    worker.onmessage = (e) => {
+      try {
+        const info = e.data as SolutionInfo;
+
+        info.time = Date.now() - startTime;
+        info.steps = info.solution.length - 1;
+
+        setSolution(info);
+        setOnFinding(false);
+      } catch (e) {
+        toast.error('Out of stack =))');
+        clearStuff();
+      }
+    };
+
+    setWorker(worker);
+  };
+
+  const stopFindSolution = () => {
+    if (worker) {
+      worker.terminate();
+      setOnFinding(false);
+      setWorker(undefined);
+    }
+  };
+
+  const doSolve = (solution: number[][]) => {
+    if (!solution.length) return;
+
+    let lastMove = solution.shift()!;
+    const solveInterval = setInterval(() => {
+      if (solution.length === 0) {
+        //TODO: Figure out why we need to clear interval here
+        clearInterval(solveInterval);
+        setSolution(undefined);
+        setSolveInterval(undefined);
+      } else {
+        const move = solution.shift()!;
+
+        doMove(getMoveDir(move, lastMove, columns), lastMove);
+        lastMove = move;
+      }
+    }, 1000);
+
+    setSolveInterval(solveInterval);
+  };
+
+  const stopSolving = () => {
+    solveInterval && clearInterval(solveInterval);
+    setSolveInterval(undefined);
+  };
+
+  useEffect(() => {
+    setOnSolving(!!solveInterval);
+  }, [solveInterval]);
+
+  const handleSolving = () => {
+    if (onSolving) {
+      stopSolving();
+    } else {
+      doSolve(solution!.solution);
+    }
+  };
+
   const doClear = () => {
     clearStuff();
 
@@ -167,12 +153,6 @@ export default function Puzzle() {
     setPieces(Array.from(pieces));
     renderPuzzle(Array.from(pieces));
   };
-
-  useEffect(() => {
-    if (!image) return;
-
-    doClear();
-  }, [image, size]);
 
   const doMove = (direction: Direction, state?: number[]) => {
     const canvas = document.querySelector('canvas')!;
@@ -299,18 +279,6 @@ export default function Puzzle() {
       doMove(Direction.DOWN);
     } else if (clickedY - cursorY === -1 && clickedX === cursorX) {
       doMove(Direction.UP);
-    }
-  };
-
-  useEffect(() => {
-    setOnSolving(!!solveInterval);
-  }, [solveInterval]);
-
-  const handleSolving = () => {
-    if (onSolving) {
-      stopSolving();
-    } else {
-      doSolve(solution!.solution);
     }
   };
 

@@ -20,3 +20,10 @@ export interface SolutionInfo {
   inspectedNodes: number;
   steps: number;
 }
+
+export enum Direction {
+  UP,
+  DOWN,
+  LEFT,
+  RIGHT,
+}
