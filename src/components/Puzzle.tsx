@@ -71,7 +71,7 @@ export default function Puzzle() {
       if (solution.length === 0) {
         //TODO: Figure out why we need to clear interval here
         clearInterval(solveInterval);
-        stopSolving();
+        setSolution(undefined);
       } else {
         const move = solution.shift()!;
 
@@ -86,7 +86,6 @@ export default function Puzzle() {
   const stopSolving = () => {
     solveInterval && clearInterval(solveInterval);
     setSolveInterval(undefined);
-    setSolution(undefined);
   };
 
   const findSolution = () => {
