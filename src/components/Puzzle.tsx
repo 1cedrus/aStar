@@ -110,7 +110,7 @@ export default function Puzzle() {
         doMove(getMoveDir(move, lastMove, columns), lastMove);
         lastMove = move;
       }
-    }, 250);
+    }, 200);
 
     setSolveInterval(solveInterval);
   };
@@ -221,14 +221,17 @@ export default function Puzzle() {
       let lastX = chooseBlockX * cWidth;
       let lastY = chooseBlockY * cHeight;
 
+      let prop = 5;
       const animate = setInterval(() => {
         if (lastX === dx && lastY === dy) {
           clearInterval(animate);
         } else {
           ctx.clearRect(lastX, lastY, cWidth, cHeight);
 
-          lastX = Math.abs(lastX - dx) < 20 ? dx : lastX < dx ? lastX + 20 : lastX - 20;
-          lastY = Math.abs(lastY - dy) < 20 ? dy : lastY < dy ? lastY + 20 : lastY - 20;
+          lastX = Math.abs(lastX - dx) < prop ? dx : lastX < dx ? lastX + prop : lastX - prop;
+          lastY = Math.abs(lastY - dy) < prop ? dy : lastY < dy ? lastY + prop : lastY - prop;
+
+          prop += 1;
 
           ctx.drawImage(img, sx, sy, bWidth, bHeight, lastX, lastY, cWidth, cHeight);
         }

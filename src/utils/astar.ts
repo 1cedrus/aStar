@@ -29,8 +29,8 @@ export function getNeighbors(state: number[], rows: number, cols: number) {
   cursorY > 0 &&
     neighbors.push(
       state
-        .toSpliced(indexOfCursor, 1, state[cursorX + (cursorY - 1) * rows])
-        .toSpliced(cursorX + (cursorY - 1) * rows, 1, 0),
+        .toSpliced(indexOfCursor, 1, state[cursorX + (cursorY - 1) * cols])
+        .toSpliced(cursorX + (cursorY - 1) * cols, 1, 0),
     );
 
   cursorX < cols - 1 && neighbors.push(state.toSpliced(indexOfCursor, 2, state[indexOfCursor + 1], 0));
@@ -38,8 +38,8 @@ export function getNeighbors(state: number[], rows: number, cols: number) {
   cursorY < rows - 1 &&
     neighbors.push(
       state
-        .toSpliced(indexOfCursor, 1, state[cursorX + (cursorY + 1) * rows])
-        .toSpliced(cursorX + (cursorY + 1) * rows, 1, 0),
+        .toSpliced(indexOfCursor, 1, state[cursorX + (cursorY + 1) * cols])
+        .toSpliced(cursorX + (cursorY + 1) * cols, 1, 0),
     );
 
   return neighbors;
