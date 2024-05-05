@@ -78,3 +78,45 @@ export function unknown(state: number[], rows: number, cols: number) {
 
   return count - 0.15 * count + a;
 }
+
+export function inversion(state: number[], rows: number, cols: number) {
+  let vertical = 0;
+  let horizontal = 0;
+
+  for (let i = 0; i < state.length; i++) {
+    if (!state[i]) continue;
+    for (let j = 0; j < i; j++) {
+      if (!state[j]) continue;
+
+      if (state[i] < state[j]) {
+        vertical++;
+      }
+    }
+  }
+
+  const mirror: number[] = Array.from({ length: state.length });
+  let idx = 0;
+  for (let i = 0; i < rows; i++) {
+    for (let j = 0; j < cols; j++) {
+      mirror[idx] = j * rows + i + 1;
+      idx++;
+    }
+  }
+
+  for (let i = 0; i < state.length; i++) {
+    if (!state[i]) continue;
+    const indexOfIInMirror = mirror.indexOf(state[i]);
+    horizontal += Math.abs(indexOfIInMirror - (mirror[i] - 1));
+  }
+
+  return (
+    Math.floor(vertical / (cols - 1)) +
+    (vertical % (cols - 1)) +
+    Math.floor(horizontal / (rows - 1)) +
+    (horizontal % (rows - 1))
+  );
+}
+
+export function manhattanWithInversion(state: number[], rows: number, cols: number) {
+  return Math.max(manhattan(state, rows, cols), inversion(state, rows, cols));
+}

@@ -11,6 +11,8 @@ export interface Node {
 export enum Heuristic {
   MISPLACED = 'Misplaced',
   MANHATTAN = 'Manhattan',
+  INVERSION = 'Inversion',
+  MANHATTAN_WITH_INVERSION = 'Manhattan + Inversion',
   UNKNOWN = 'Unknown',
 }
 

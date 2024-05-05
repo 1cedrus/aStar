@@ -150,7 +150,7 @@ export default function Puzzle() {
       while (pieces.size < rows * columns) {
         pieces.add(Math.floor(Math.random() * rows * columns));
       }
-    } while (!isSolvable(Array.from(pieces)));
+    } while (!isSolvable(Array.from(pieces), rows, columns));
 
     setPieces(Array.from(pieces));
     renderPuzzle(Array.from(pieces));
@@ -312,6 +312,8 @@ export default function Puzzle() {
         <Select value={heuristic} onChange={(e) => setHeuristic(e.target.value as Heuristic)} disabled={isDisabled}>
           <option value={Heuristic.MISPLACED}>{Heuristic.MISPLACED}</option>
           <option value={Heuristic.MANHATTAN}>{Heuristic.MANHATTAN}</option>
+          <option value={Heuristic.INVERSION}>{Heuristic.INVERSION}</option>
+          <option value={Heuristic.MANHATTAN_WITH_INVERSION}>{Heuristic.MANHATTAN_WITH_INVERSION}</option>
           <option value={Heuristic.UNKNOWN}>{Heuristic.UNKNOWN}</option>
         </Select>
         <Flex gap={2}>
