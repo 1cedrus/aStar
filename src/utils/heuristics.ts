@@ -55,6 +55,7 @@ export function unknown(state: number[], rows: number, cols: number) {
     count += Math.pow(Math.abs(targetX - cursorX), 2) + Math.pow(Math.abs(targetY - cursorY), 2);
   }
 
+  // Linear conflict
   let a = 0;
   for (let i = 0; i < state.length; i++) {
     if (i % cols === cols - 1) continue;

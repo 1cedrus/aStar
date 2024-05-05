@@ -13,7 +13,7 @@ export enum Heuristic {
   MANHATTAN = 'Manhattan',
   INVERSION = 'Inversion',
   MANHATTAN_WITH_INVERSION = 'Manhattan + Inversion',
-  UNKNOWN = 'Unknown',
+  UNKNOWN = 'unknown (Not Optimal)',
 }
 
 export interface SolutionInfo {
