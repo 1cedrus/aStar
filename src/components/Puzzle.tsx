@@ -122,11 +122,7 @@ export default function Puzzle() {
   }, [solveInterval]);
 
   const handleSolving = () => {
-    if (onSolving) {
-      stopSolving();
-    } else {
-      doSolve(solution!.solution);
-    }
+    doSolve(solution!.solution);
   };
 
   const doClear = () => {
@@ -343,8 +339,8 @@ export default function Puzzle() {
               <p>Inspected Nodes: {solution.inspectedNodes}</p>
               <p>Steps: {solution.steps}</p>
             </Box>
-            <Button onClick={() => handleSolving()} colorScheme={onSolving ? 'red' : 'gray'}>
-              {onSolving ? 'Stop' : 'Solve'}
+            <Button onClick={() => handleSolving()} loadingText='Solving...' isLoading={onSolving} width='10rem'>
+              {'Solve'}
             </Button>
           </Flex>
         )}
