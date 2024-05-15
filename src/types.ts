@@ -18,7 +18,7 @@ export enum Heuristic {
 
 export interface SolutionInfo {
   solution: number[][];
-  time?: number;
+  time: number;
   inspectedNodes: number;
   steps: number;
 }

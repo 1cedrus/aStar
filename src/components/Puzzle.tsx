@@ -64,15 +64,12 @@ export default function Puzzle() {
     clearStuff();
 
     setOnFinding(true);
-    const startTime = Date.now();
 
     const worker = new Worker(new URL('../utils/worker.ts', import.meta.url), { type: 'module' });
     worker.postMessage([pieces, heuristic, rows, columns]);
     worker.onmessage = (e) => {
       try {
         const info = e.data as SolutionInfo;
-
-        info.time = Date.now() - startTime;
         info.steps = info.solution.length - 1;
 
         setSolution(info);
@@ -342,7 +339,7 @@ export default function Puzzle() {
         {solution && (
           <Flex gap={2} justify='space-between' align='center'>
             <Box>
-              <p>Time: {solution.time}ms</p>
+              <p>Time: {solution.time.toFixed(3)}ms</p>
               <p>Inspected Nodes: {solution.inspectedNodes}</p>
               <p>Steps: {solution.steps}</p>
             </Box>

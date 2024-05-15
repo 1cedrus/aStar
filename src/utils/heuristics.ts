@@ -75,10 +75,6 @@ export function inversion(state: number[], rows: number, cols: number) {
   );
 }
 
-export function manhattanWithInversion(state: number[], rows: number, cols: number) {
-  return Math.min(manhattan(state, rows, cols), inversion(state, rows, cols));
-}
-
 export function verticalInversion(state: number[]) {
   let count = 0;
 

@@ -1,13 +1,6 @@
 import { aStar } from '@/utils/astar.ts';
 import { Heuristic } from '@/types.ts';
-import {
-  inversion,
-  manhattan,
-  manhattanWithInversion,
-  manhattanWithLinearConflict,
-  misplaced,
-  unknown,
-} from '@/utils/heuristics.ts';
+import { inversion, manhattan, manhattanWithLinearConflict, misplaced, unknown } from '@/utils/heuristics.ts';
 
 onmessage = (e) => {
   const [state, heuristic, rows, cols] = e.data;
@@ -33,7 +26,11 @@ onmessage = (e) => {
       throw new Error('Invalid heuristic');
   }
 
+  const start = performance.now();
   const solution = aStar(state, heuristicFunc, rows, cols);
+  const end = performance.now();
+
+  solution.time = end - start;
 
   postMessage(solution);
 };
