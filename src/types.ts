@@ -12,7 +12,7 @@ export enum Heuristic {
   MISPLACED = 'Misplaced',
   MANHATTAN = 'Manhattan',
   INVERSION = 'Inversion',
-  MANHATTAN_WITH_INVERSION = 'Manhattan + Inversion',
+  MANHATTAN_WITH_LINEAR_CONFLICT = 'Manhattan + Linear Conflict',
   UNKNOWN = 'unknown (Not Optimal)',
 }
 
