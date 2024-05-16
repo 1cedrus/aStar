@@ -2,9 +2,7 @@ export function misplaced(state: number[], _rows: number, _cols: number) {
   let count = 0;
 
   for (let i = 0; i < state.length; i++) {
-    if (state[i] === 0 && i !== state.length - 1) {
-      count += 1;
-    } else if (state[i] !== 0 && state[i] !== i + 1) {
+    if (state[i] !== 0 && state[i] !== i + 1) {
       count += 1;
     }
   }
@@ -20,15 +18,12 @@ export function manhattan(state: number[], _rows: number, cols: number) {
     if (state[i]) {
       targetX = (state[i] - 1) % cols;
       targetY = Math.floor((state[i] - 1) / cols);
-    } else {
-      targetX = (state.length - 1) % cols;
-      targetY = Math.floor((state.length - 1) / cols);
+
+      cursorX = i % cols;
+      cursorY = Math.floor(i / cols);
+
+      count += Math.abs(targetX - cursorX) + Math.abs(targetY - cursorY);
     }
-
-    cursorX = i % cols;
-    cursorY = Math.floor(i / cols);
-
-    count += Math.abs(targetX - cursorX) + Math.abs(targetY - cursorY);
   }
 
   return count;
