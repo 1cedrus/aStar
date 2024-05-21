@@ -2,9 +2,7 @@ export function misplaced(state: number[], _rows: number, _cols: number) {
   let count = 0;
 
   for (let i = 0; i < state.length; i++) {
-    if (state[i] === 0 && i !== state.length - 1) {
-      count += 1;
-    } else if (state[i] !== 0 && state[i] !== i + 1) {
+    if (state[i] && state[i] !== i + 1) {
       count += 1;
     }
   }
@@ -16,19 +14,15 @@ export function manhattan(state: number[], _rows: number, cols: number) {
   let count = 0;
 
   for (let i = 0; i < state.length; i++) {
-    let targetX, targetY, cursorX, cursorY;
     if (state[i]) {
-      targetX = (state[i] - 1) % cols;
-      targetY = Math.floor((state[i] - 1) / cols);
-    } else {
-      targetX = (state.length - 1) % cols;
-      targetY = Math.floor((state.length - 1) / cols);
+      const targetX = (state[i] - 1) % cols;
+      const targetY = Math.floor((state[i] - 1) / cols);
+
+      const cursorX = i % cols;
+      const cursorY = Math.floor(i / cols);
+
+      count += Math.abs(targetX - cursorX) + Math.abs(targetY - cursorY);
     }
-
-    cursorX = i % cols;
-    cursorY = Math.floor(i / cols);
-
-    count += Math.abs(targetX - cursorX) + Math.abs(targetY - cursorY);
   }
 
   return count;
@@ -121,22 +115,18 @@ export function horizontalInversion(state: number[], rows: number, cols: number)
 export function linearConflict(state: number[], rows: number, cols: number) {
   let count = 0;
 
-  for (let i = 0; i < state.length; i++) {
+  for (let i = 0; i < state.length - 2; i++) {
     if (i % cols === cols - 1) continue;
 
-    if (i === state.length - 2 && state[i + 1] === i + 1 && state[i] === 0) {
-      count += 2;
-    } else if (state[i] === i + 2 && state[i + 1] === i + 1) {
+    if (state[i] === i + 2 && state[i + 1] === i + 1) {
       count += 2;
     }
   }
 
-  for (let i = 0; i < state.length; i++) {
+  for (let i = 0; i < state.length - cols - 1; i++) {
     if (Math.floor(i / cols) === rows - 1) break;
 
-    if (i === state.length - cols - 1 && state[i + cols] === i + 1 && state[i] === 0) {
-      count += 2;
-    } else if (state[i] === i + cols + 1 && state[i + cols] === i + 1) {
+    if (state[i] === i + cols + 1 && state[i + cols] === i + 1) {
       count += 2;
     }
   }

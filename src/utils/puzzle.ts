@@ -1,4 +1,5 @@
 import { Direction } from '@/types.ts';
+import { verticalInversion } from '@/utils/heuristics.ts';
 
 export function getMoveDir(move: number[], pieces: number[], columns: number) {
   const indexOfCursor = pieces.indexOf(0);
@@ -11,18 +12,7 @@ export function getMoveDir(move: number[], pieces: number[], columns: number) {
 }
 
 export function isSolvable(state: number[], rows: number, cols: number) {
-  let inversions = 0;
-
-  for (let i = 0; i < state.length; i++) {
-    if (!state[i]) continue;
-    for (let j = i + 1; j < state.length; j++) {
-      if (!state[j]) continue;
-
-      if (state[i] > state[j]) {
-        inversions++;
-      }
-    }
-  }
+  const inversions = verticalInversion(state);
 
   if (cols % 2) {
     return inversions % 2 === 0;
