@@ -306,6 +306,7 @@ export default function Puzzle() {
           <option value={Heuristic.MISPLACED}>{Heuristic.MISPLACED}</option>
           <option value={Heuristic.MANHATTAN}>{Heuristic.MANHATTAN}</option>
           <option value={Heuristic.INVERSION}>{Heuristic.INVERSION}</option>
+          <option value={Heuristic.WALKING}>{Heuristic.WALKING}</option>
           <option value={Heuristic.MANHATTAN_WITH_LINEAR_CONFLICT}>{Heuristic.MANHATTAN_WITH_LINEAR_CONFLICT}</option>
           <option value={Heuristic.UNKNOWN}>{Heuristic.UNKNOWN}</option>
         </Select>
