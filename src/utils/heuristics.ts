@@ -133,3 +133,33 @@ export function linearConflict(state: number[], rows: number, cols: number) {
 
   return count;
 }
+
+export function walkingDistance(state: number[], rows: number, cols: number) {
+  walkingDatabase.init(rows, cols);
+
+  const vertical: number[][] = [];
+  for (let i = 0; i < rows; i++) {
+    vertical.push([]);
+    for (let j = 0; j < cols; j++) {
+      vertical[i].push(Math.ceil(state[i * cols + j] / cols));
+    }
+
+    vertical[i].sort();
+  }
+
+  const horizontal: number[][] = [];
+  for (let i = 0; i < cols; i++) {
+    horizontal.push([]);
+    for (let j = 0; j < rows; j++) {
+      if (!state[j * cols + i]) {
+        horizontal[i].push(0);
+      } else {
+        horizontal[i].push(Math.ceil(state[j * cols + i] % cols === 0 ? cols : state[j * cols + i] % cols));
+      }
+    }
+
+    horizontal[i].sort();
+  }
+
+  return walkingDatabase.stepsToGoal(vertical) + walkingDatabase.stepsToGoal(horizontal);
+}
