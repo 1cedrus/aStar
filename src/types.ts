@@ -9,12 +9,11 @@ export interface Node {
 }
 
 export enum Heuristic {
-  MISPLACED = 'Misplaced',
+  MISPLACED = 'Misplaced (Hamming Distance)',
   MANHATTAN = 'Manhattan Distance',
   INVERSION = 'Inversion Distance',
   WALKING = 'Walking Distance',
   MANHATTAN_WITH_LINEAR_CONFLICT = 'Manhattan + Linear Conflict',
-  UNKNOWN = 'unknown (Not Optimal)',
 }
 
 export interface SolutionInfo {

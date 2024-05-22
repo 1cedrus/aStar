@@ -1,13 +1,6 @@
 import { aStar } from '@/utils/astar.ts';
 import { Heuristic } from '@/types.ts';
-import {
-  inversion,
-  manhattan,
-  manhattanWithLinearConflict,
-  misplaced,
-  unknown,
-  walkingDistance,
-} from '@/utils/heuristics.ts';
+import { inversion, manhattan, manhattanWithLinearConflict, misplaced, walkingDistance } from '@/utils/heuristics.ts';
 
 onmessage = (e) => {
   const [state, heuristic, rows, cols] = e.data;
@@ -19,9 +12,6 @@ onmessage = (e) => {
       break;
     case Heuristic.MANHATTAN:
       heuristicFunc = manhattan;
-      break;
-    case Heuristic.UNKNOWN:
-      heuristicFunc = unknown;
       break;
     case Heuristic.INVERSION:
       heuristicFunc = inversion;
