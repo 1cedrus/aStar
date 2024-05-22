@@ -24,7 +24,6 @@ export class WalkingDatabase {
     this.visited = new Set();
     this.cache = new Map();
     this.costs = new Map();
-    this.init(3, 3);
   }
 
   stepsToGoal(state: number[][]) {

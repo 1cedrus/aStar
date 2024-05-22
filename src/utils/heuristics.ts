@@ -117,19 +117,37 @@ export function horizontalInversion(state: number[], rows: number, cols: number)
 export function linearConflict(state: number[], rows: number, cols: number) {
   let count = 0;
 
-  for (let i = 0; i < state.length - 2; i++) {
-    if (i % cols === cols - 2) continue;
-
-    if (state[i] === i + 2 && state[i + 1] === i + 1) {
-      count += 2;
+  // Check row-wise conflicts
+  for (let row = 0; row < rows; row++) {
+    for (let col = 0; col < cols - 1; col++) {
+      let index = row * cols + col;
+      // Check if the tile is in its goal row
+      if (state[index] !== 0 && Math.floor((state[index] - 1) / cols) === row) {
+        // Compare with subsequent tiles in the same row
+        for (let k = col + 1; k < cols; k++) {
+          let indexK = row * cols + k;
+          if (state[indexK] !== 0 && Math.floor((state[indexK] - 1) / cols) === row && state[index] > state[indexK]) {
+            count += 2;
+          }
+        }
+      }
     }
   }
 
-  for (let i = 0; i < state.length - cols - 1; i++) {
-    if (Math.floor(i / cols) === rows - 2) break;
-
-    if (state[i] === i + cols + 1 && state[i + cols] === i + 1) {
-      count += 2;
+  // Check column-wise conflicts
+  for (let col = 0; col < cols; col++) {
+    for (let row = 0; row < rows - 1; row++) {
+      let index = row * cols + col;
+      // Check if the tile is in its goal column
+      if (state[index] !== 0 && (state[index] - 1) % cols === col) {
+        // Compare with subsequent tiles in the same column
+        for (let k = row + 1; k < rows; k++) {
+          let indexK = k * cols + col;
+          if (state[indexK] !== 0 && (state[indexK] - 1) % cols === col && state[index] > state[indexK]) {
+            count += 2;
+          }
+        }
+      }
     }
   }
 
