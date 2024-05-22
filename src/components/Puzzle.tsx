@@ -359,9 +359,6 @@ export default function Puzzle() {
             isDisabled={isDisabled || !rows || !columns || !isValid}>
             Shuffle
           </Button>
-          <Button onClick={doClear} variant='outline' w='100%' isDisabled={isDisabled || !rows || !columns || !isValid}>
-            Clear
-          </Button>
           <Button
             onClick={doRemove}
             variant='outline'
