@@ -118,7 +118,7 @@ export function linearConflict(state: number[], rows: number, cols: number) {
   let count = 0;
 
   for (let i = 0; i < state.length - 2; i++) {
-    if (i % cols === cols - 1) continue;
+    if (i % cols === cols - 2) continue;
 
     if (state[i] === i + 2 && state[i + 1] === i + 1) {
       count += 2;
@@ -126,7 +126,7 @@ export function linearConflict(state: number[], rows: number, cols: number) {
   }
 
   for (let i = 0; i < state.length - cols - 1; i++) {
-    if (Math.floor(i / cols) === rows - 1) break;
+    if (Math.floor(i / cols) === rows - 2) break;
 
     if (state[i] === i + cols + 1 && state[i + cols] === i + 1) {
       count += 2;
