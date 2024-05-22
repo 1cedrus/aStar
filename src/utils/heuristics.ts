@@ -1,3 +1,5 @@
+import walkingDatabase from './database.ts';
+
 export function misplaced(state: number[], _rows: number, _cols: number) {
   let count = 0;
 
