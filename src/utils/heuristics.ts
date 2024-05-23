@@ -34,29 +34,44 @@ export function manhattanWithLinearConflict(state: number[], rows: number, cols:
   return manhattan(state, rows, cols) + linearConflict(state, rows, cols);
 }
 
-export function unknown(state: number[], rows: number, cols: number) {
+export function linearConflict(state: number[], rows: number, cols: number) {
   let count = 0;
 
-  for (let i = 0; i < state.length; i++) {
-    let targetX;
-    let targetY;
-    if (state[i]) {
-      targetX = (state[i] - 1) % cols;
-      targetY = Math.floor((state[i] - 1) / cols);
-    } else {
-      targetX = (state.length - 1) % cols;
-      targetY = Math.floor((state.length - 1) / cols);
+  // Check row-wise conflicts
+  for (let row = 0; row < rows; row++) {
+    for (let col = 0; col < cols - 1; col++) {
+      let index = row * cols + col;
+      // Check if the tile is in its goal row
+      if (state[index] !== 0 && Math.floor((state[index] - 1) / cols) === row) {
+        // Compare with subsequent tiles in the same row
+        for (let k = col + 1; k < cols; k++) {
+          let indexK = row * cols + k;
+          if (state[indexK] !== 0 && Math.floor((state[indexK] - 1) / cols) === row && state[index] > state[indexK]) {
+            count += 2;
+          }
+        }
+      }
     }
-
-    const cursorX = i % cols;
-    const cursorY = Math.floor(i / cols);
-
-    count += Math.pow(Math.abs(targetX - cursorX), 2) + Math.pow(Math.abs(targetY - cursorY), 2);
   }
 
-  const linearConflictCount = linearConflict(state, rows, cols);
+  // Check column-wise conflicts
+  for (let col = 0; col < cols; col++) {
+    for (let row = 0; row < rows - 1; row++) {
+      let index = row * cols + col;
+      // Check if the tile is in its goal column
+      if (state[index] !== 0 && (state[index] - 1) % cols === col) {
+        // Compare with subsequent tiles in the same column
+        for (let k = row + 1; k < rows; k++) {
+          let indexK = k * cols + col;
+          if (state[indexK] !== 0 && (state[indexK] - 1) % cols === col && state[index] > state[indexK]) {
+            count += 2;
+          }
+        }
+      }
+    }
+  }
 
-  return count - 0.15 * count + linearConflictCount;
+  return count;
 }
 
 export function inversion(state: number[], rows: number, cols: number) {
@@ -112,46 +127,6 @@ export function horizontalInversion(state: number[], rows: number, cols: number)
   }
 
   return verticalInversion(horizontal);
-}
-
-export function linearConflict(state: number[], rows: number, cols: number) {
-  let count = 0;
-
-  // Check row-wise conflicts
-  for (let row = 0; row < rows; row++) {
-    for (let col = 0; col < cols - 1; col++) {
-      let index = row * cols + col;
-      // Check if the tile is in its goal row
-      if (state[index] !== 0 && Math.floor((state[index] - 1) / cols) === row) {
-        // Compare with subsequent tiles in the same row
-        for (let k = col + 1; k < cols; k++) {
-          let indexK = row * cols + k;
-          if (state[indexK] !== 0 && Math.floor((state[indexK] - 1) / cols) === row && state[index] > state[indexK]) {
-            count += 2;
-          }
-        }
-      }
-    }
-  }
-
-  // Check column-wise conflicts
-  for (let col = 0; col < cols; col++) {
-    for (let row = 0; row < rows - 1; row++) {
-      let index = row * cols + col;
-      // Check if the tile is in its goal column
-      if (state[index] !== 0 && (state[index] - 1) % cols === col) {
-        // Compare with subsequent tiles in the same column
-        for (let k = row + 1; k < rows; k++) {
-          let indexK = k * cols + col;
-          if (state[indexK] !== 0 && (state[indexK] - 1) % cols === col && state[index] > state[indexK]) {
-            count += 2;
-          }
-        }
-      }
-    }
-  }
-
-  return count;
 }
 
 export function walkingDistance(state: number[], rows: number, cols: number) {

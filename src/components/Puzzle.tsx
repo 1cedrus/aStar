@@ -1,8 +1,7 @@
 import { Direction, Heuristic, SolutionInfo } from '@/types.ts';
 import { useEffect, useState } from 'react';
-import { Box, Button, Flex, Input, InputGroup, InputLeftAddon, InputRightElement, Select } from '@chakra-ui/react';
+import { Box, Button, Flex, Input, InputGroup, InputLeftAddon, Select } from '@chakra-ui/react';
 import Dropzone from '@/components/Dropzone.tsx';
-import { toast } from 'react-toastify';
 import { misplaced } from '@/utils/heuristics.ts';
 import { getMoveDir, isSolvable } from '@/utils/puzzle.ts';
 
@@ -76,7 +75,7 @@ export default function Puzzle() {
         setSolution(info);
         setOnFinding(false);
       } catch (e) {
-        toast.error('Out of stack =))');
+        //TODO: Find a way to limit the allocation of memory in the worker, and throw error if the limit is be surpassed
         clearStuff();
       }
     };
@@ -152,12 +151,6 @@ export default function Puzzle() {
 
     renderPuzzle(Array.from(pieces));
   };
-
-  useEffect(() => {
-    if (onSolving) {
-      setCustomPieces(Array.from(pieces).join(','));
-    }
-  }, [pieces]);
 
   const doMove = (direction: Direction, state?: number[]) => {
     const canvas = document.querySelector('canvas')!;
@@ -247,6 +240,7 @@ export default function Puzzle() {
       newPieces[chooseBlockIndex] = 0;
       newPieces[indexOfCursor] = chooseBlock;
 
+      setCustomPieces(newPieces.join(','));
       return newPieces;
     });
 
@@ -303,6 +297,7 @@ export default function Puzzle() {
     renderPuzzle(pieces);
   };
 
+  //TODO: Find a better way to check if the pieces are valid (this one run on every render)
   const isValidPieces = () => {
     for (let i = 0; i < rows * columns; i++) {
       if (!pieces.includes(i)) return false;
@@ -328,18 +323,16 @@ export default function Puzzle() {
           <InputLeftAddon>Size</InputLeftAddon>
           <Input value={size} onChange={(e) => setSize(e.target.value)} placeholder='' disabled={isDisabled} />
         </InputGroup>
-        <InputGroup>
+        <InputGroup gap={1}>
           <Input
             value={onSolving ? pieces.join(',') : customPieces}
             placeholder='1,2,3,4,5,6,7,8,0'
             onChange={(e) => handleCustomPieces(e.currentTarget.value)}
             disabled={isDisabled || !rows || !columns}
           />
-          <InputRightElement width='4.5rem'>
-            <Button size='sm' mr={1} onClick={doClear}>
-              Reset
-            </Button>
-          </InputRightElement>
+          <Button variant='outline' onClick={doClear} isDisabled={!misplaced(pieces, rows, columns)}>
+            Reset
+          </Button>
         </InputGroup>
         <Select
           value={heuristic}

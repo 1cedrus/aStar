@@ -1,7 +1,4 @@
-// import { Map } from 'immutable';
-
 export class WalkingDatabase {
-  parents: Map<string, number[][]>;
   costs: Map<string, number>;
   queue: Array<number[][]>;
   visited: Set<string>;
@@ -12,14 +9,12 @@ export class WalkingDatabase {
 
   clearCache() {
     this.visited.clear();
-    this.parents.clear();
     this.queue = [];
     this.cache.clear();
     this.costs = new Map();
   }
 
   constructor() {
-    this.parents = new Map();
     this.queue = [];
     this.visited = new Set();
     this.cache = new Map();
@@ -49,7 +44,6 @@ export class WalkingDatabase {
       for (const neighbor of neighbors) {
         const neighborKey = neighbor.toString();
 
-        this.parents.set(neighborKey, state);
         this.queue.push(neighbor);
         this.costs.set(neighborKey, this.costs.get(state.toString())! + 1);
       }
@@ -68,7 +62,6 @@ export class WalkingDatabase {
         for (const neighbor of neighbors) {
           const neighborKey = neighbor.toString();
 
-          this.parents.set(neighborKey, state);
           this.queue.push(neighbor);
           this.costs.set(neighborKey, this.costs.get(state.toString())! + 1);
         }

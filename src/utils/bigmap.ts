@@ -49,20 +49,4 @@ export class BigMap<Key = string, Value = 'string'> {
   get size() {
     return this.maps.reduce((o, map) => o + map.size, 0);
   }
-
-  // _reduceSpread(type: Key) {
-  //   return this.maps.reduce((out, map) => out.concat([...map[type]()]), []);
-  // }
-
-  // values() {
-  //   return this._reduceSpread('values');
-  // }
-
-  // keys() {
-  //   return this._reduceSpread('keys');
-  // }
-
-  // entries() {
-  //   return this._reduceSpread('entries');
-  // }
 }

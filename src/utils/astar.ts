@@ -52,8 +52,11 @@ export function aStar(
   cols: number,
 ) {
   const visited = new Set<string>();
+  // Cost in Node is value of f(n)
   const queue = new PriorityQueue<Node>((a, b) => a.cost - b.cost);
+  // This hold the parent of visited node, so we can backtrack to get the path
   const parents = new BigMap<string, number[]>();
+  // This hold the g(n) of visited node
   const costs = new BigMap<string, number>();
 
   queue.push({ state: startState, cost: heuristic(startState, rows, cols) });
