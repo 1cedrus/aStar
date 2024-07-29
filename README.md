@@ -3,9 +3,18 @@ Applying A* (A-star) to solve n-puzzle problems.
 
 ![Demo](https://github.com/1cedrus/aStar/blob/main/assets/demo.gif)
 
-### About 
+### About
+- This project provides an application of A* for solving the n-puzzle problem. The project supports 5 heuristics now, including: Misplaced, Manhattan, Inversion, Manhattan with Linear Conflict, and Walking Distance. The project also provides a user-friendly interface for users to interact with the puzzle. The project is open-source and available on Github.
+- You can change the size of the problem to what you want. And you can provide the start state for the problem by the State field. The project will provide you with the solution, the time it took to find the solution.
 
-In this project, I implemented 5 heuristics that will be shown in the table below.
+- Note:
+
+  - 4x4 is the best one this app can solve, do not try to solve a 5x5 or 6x6 puzzle, it will take a lot of memory and time. If it run out of memory, your browser will crash.  
+  - If your start state is not solvable, the Find Solution button will be disabled.
+
+
+- In this project, I implemented 5 heuristics that will be shown in the table below.
+  
 | Heuristic    | Is it acceptable? |
 | -------- | ------- |
 | Misplaced - Hamming Distance  | Yes    |
