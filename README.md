@@ -3,7 +3,7 @@ Applying A* (A-star) to solve n-puzzle problems.
 
 ![Demo](https://github.com/1cedrus/aStar/blob/main/assets/demo.gif)
 
-### About
+### 🔥 About 
 - This project provides an application of A* for solving the n-puzzle problem. The project supports 5 heuristics now, including: Misplaced, Manhattan, Inversion, Manhattan with Linear Conflict, and Walking Distance. The project also provides a user-friendly interface for users to interact with the puzzle. The project is open-source and available on Github.
 - You can change the size of the problem to what you want. And you can provide the start state for the problem by the State field. The project will provide you with the solution, the time it took to find the solution.
 
@@ -23,7 +23,7 @@ Applying A* (A-star) to solve n-puzzle problems.
 | Walking Distance    | Yes    |
 | Manhattan & Linear Conflict    | ?    |
 
-### Tests Results
+### 🚗 Tests Results
 
 I skip `Misplaced - Hamming Distance` because it is slow and memory using costly so will be impossible to solve 4x4 problems.
 
@@ -73,7 +73,7 @@ Case 5: `13,11,2,6,3,4,12,8,7,1,0,5,15,14,9,10`
 | Walking Distance | 10012.800ms | 558320 |
 | Manhattan & Linear Conflict | 5419.800ms | 595122 |
 
-### Conclusion
+### ✈️ Conclusion
 
 - If you notice, `Manhattan Distance` and `Inversion Distance` differ in their focus:
   - `Manhattan Distance` only cares about the correct position of tiles and the fastest way to move them to their correct positions, ignoring the empty box.
@@ -84,7 +84,7 @@ So, which one is faster depends on the specific problem.
 - `Walking Distance` is the mix between `Manhattan Distance` and `Inversion Distance`. Make it have a better performance.
 - `Manhattan & Linear Conflict` is the mix between `Manhattan` and `Linear Conflict`.
 
-### References
+### 📚 References
 - [Manhattan - Inversion - Walking Distance](https://michael.kim/blog/puzzle)
 - [Linear Conflict](https://cse.sc.edu/~mgv/csce580sp15/gradPres/HanssonMayerYung1992.pdf)
 - [My Report (Vietnamese)](https://github.com/1cedrus/aStar/blob/main/assets/report.pdf)
