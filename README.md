@@ -25,7 +25,7 @@ Applying A* (A-star) to solve n-puzzle problems.
 
 ### 💨 How to run
 
-- Use deployed version [aStar](puvizualize.netlify.app/).
+- Use deployed version [aStar](https://puvizualize.netlify.app/).
 - Do it local
 
   ```bash
