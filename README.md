@@ -23,9 +23,21 @@ Applying A* (A-star) to solve n-puzzle problems.
 | Walking Distance    | Yes    |
 | Manhattan & Linear Conflict    | ?    |
 
+### 💨 How to run
+
+- Use deployed version [aStar](puvizualize.netlify.app/).
+- Do it local
+
+  ```bash
+  $ git clone git@github.com:1cedrus/aStar.git
+  $ cd aStar && bun install
+  $ bun start
+  ```
+
+
 ### 🚗 Tests Results
 
-I skip `Misplaced - Hamming Distance` because it is slow and memory using costly so will be impossible to solve 4x4 problems.
+I skip `Misplaced - Hamming Distance` because it is slow and memory-costly so it will be impossible to solve 4x4 problems.
 
 
 Case 1: `4,7,5,6,0,2,14,13,3,1,9,10,15,11,12,8`
@@ -79,7 +91,7 @@ Case 5: `13,11,2,6,3,4,12,8,7,1,0,5,15,14,9,10`
   - `Manhattan Distance` only cares about the correct position of tiles and the fastest way to move them to their correct positions, ignoring the empty box.
   - `Inversion Distance`, on the other hand, focuses on how many times the empty box needs to move left-right or up-down to reduce the inversion count to 0 (the goal state has an inversion count of 0), without considering the correct spot for each tile.
 
-So, which one is faster depends on the specific problem.
+  So, which one is faster depends on the specific problem.
 
 - `Walking Distance` is the mix between `Manhattan Distance` and `Inversion Distance`. Make it have a better performance.
 - `Manhattan & Linear Conflict` is the mix between `Manhattan` and `Linear Conflict`.
